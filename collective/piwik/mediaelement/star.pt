@@ -12,7 +12,6 @@ function getPlayCount() {
         dataType: "json",
         cache: false,
         success: function(data) {
-            console.log(data);
             if (data[0] > 0) {
                 jq('#piwik-playcount span.views').html(data[0]);
                 jq('#piwik-playcount').fadeIn();
@@ -30,7 +29,6 @@ function getDownCount() {
         cache: false,
         dataType: "json",
         success: function(data) {
-            console.log('down: ' + data);
             if (data[0] > 0) {
                 jq('#piwik-downloads span.views').html(data[0]);
                 jq('#piwik-downloads').fadeIn();
@@ -56,17 +54,14 @@ jq(function () {
         $('video').mediaelementplayer().bind('play',function(){
             piwikTracker.trackLink(location.href.split('/view')[0],'link');
             getPlayCount();
-            //console.log('trackLink ' + location.href.split('/view')[0]);
         });    
 
         $('a[href$="at_download/file"]').click(function() {
-            alert('download1');
             setTimeout("piwikTracker.trackLink(location.href.split('/view')[0],'download')",1000);    
             setTimeout("getDownCount()",5000);
         });
     
         $('a[href="' + location.href.split('/view')[0] + '"]').click(function() {
-            alert('download2');
             setTimeout("piwikTracker.trackLink(location.href.split('/view')[0],'download')",1000);    
             setTimeout("getDownCount()",5000);
         });
