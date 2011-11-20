@@ -1,0 +1,62 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml"     
+    i18n_domain="collective.piwik.mediaelement">
+
+  <five:registerPackage package="." initialize=".initialize" />
+  <include package="collective.piwik.core" />
+  
+  <configure zcml:condition="installed collective.transcode.star">
+      <browser:viewlet
+          name="collective.piwik.flowplayer"
+          for="collective.transcode.star.interfaces.ITranscoded"
+          manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
+          permission="zope2.View"
+          template="star.pt"
+          layer="collective.piwik.core.browser.interfaces.IPiwikCore"
+          class=".viewlets.PiwikVideoViewlet" />
+
+      <browser:page
+          name="playcount"
+          for="collective.transcode.star.interfaces.ITranscoded"
+          permission="zope2.View"
+          layer="collective.piwik.core.browser.interfaces.IPiwikCore"
+          class=".view.CountView" />
+
+      <browser:page
+          name="downcount"
+          for="collective.transcode.star.interfaces.ITranscoded"
+          permission="zope2.View"
+          layer="collective.piwik.core.browser.interfaces.IPiwikCore"
+          class=".view.CountView" />
+
+  </configure>
+  
+  <configure zcml:condition="not-installed collective.transcode.star">
+    <browser:viewlet
+        name="collective.piwik.mediaelement"
+        for="collective.mediaelementjs.interfaces.IVideo"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
+        permission="zope2.View"
+        template="mediaelement.pt"
+        layer="collective.piwik.core.browser.interfaces.IPiwikCore"
+        class=".viewlets.PiwikVideoViewlet" />
+      
+    <browser:page
+        name="playcount"
+        for="collective.mediaelementjs.interfaces.IVideo"
+        permission="zope2.View"
+        layer="collective.piwik.core.browser.interfaces.IPiwikCore"
+        class=".view.CountView" />
+        
+    <browser:page
+          name="downcount"
+          for="collective.transcode.star.interfaces.ITranscoded"
+          permission="zope2.View"
+          layer="collective.piwik.core.browser.interfaces.IPiwikCore"
+          class=".view.CountView" />
+        
+  </configure>
+</configure>

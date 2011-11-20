@@ -1,0 +1,30 @@
+<span id="piwik-playcount" class="discreet" style="display:none; "><span class="views"></span> views</span>
+
+<script>
+
+function getPlayCount() {
+    jq.ajax({
+        url: location.href.split('/view')[0] + '/@@playcount',
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            if (data[0] > 0) {
+                jq('#piwik-playcount span.views').html(data[0]);
+                jq('#piwik-playcount').fadeIn();
+            }
+        },
+        error: function(){//alert('error!');
+        }
+    });
+}
+
+jq(window).load(function() {
+    getPlayCount();
+    $('video').mediaelementplayer().bind('play',function(){
+        piwikTracker.trackLink(location.href.split('/view')[0],'link');
+        getPlayCount();
+        //console.log('trackLink ' + location.href.split('/view')[0]);
+    });    
+});
+
+</script>
