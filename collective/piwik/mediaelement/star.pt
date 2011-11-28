@@ -51,8 +51,9 @@ jq(function () {
 
     jq(window).load(function() {
         getPlayCount();
-        $('video').mediaelementplayer().bind('play',function(){
+        $('video').mediaelementplayer().bind('play.onstart',function(){ 
             piwikTracker.trackLink(location.href.split('/view')[0],'link');
+            $('video').mediaelementplayer().unbind('play.onstart'); //unbind after we click play, so we count each video view one time
             getPlayCount();
         });    
 
