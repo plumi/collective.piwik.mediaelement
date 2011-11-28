@@ -53,7 +53,7 @@
         
     <browser:page
           name="downcount"
-          for="collective.transcode.star.interfaces.ITranscoded"
+          for="collective.mediaelementjs.interfaces.IVideo"
           permission="zope2.View"
           layer="collective.piwik.core.browser.interfaces.IPiwikCore"
           class=".view.CountView" />
