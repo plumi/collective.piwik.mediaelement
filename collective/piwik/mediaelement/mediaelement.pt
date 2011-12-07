@@ -18,17 +18,16 @@ function getPlayCount() {
     });
 }
 
-jq(window).load(function() {getPlayCount(); });
-
-jq(function () {    
+jq(function () {
     jq(window).load(function() {
-        $('video').mediaelementplayer().bind('play.onstart',function(){ 
-            piwikTracker.trackLink(location.href.split('/view')[0],'link');
-            $('video').mediaelementplayer().unbind('play.onstart'); //unbind after we click play, so we count each video view one time
-            getPlayCount();
-        });    
-      
-               
+        getPlayCount();
+        $('video').mediaelementplayer()[0].player.media.addEventListener('play',
+            function() {
+                piwikTracker.trackLink(location.href.split('/view')[0],'link');
+                $('video').mediaelementplayer()[0].player.media.removeEventListener('play');
+                setTimeout("getPlayCount()", 10000);
+            },
+            event=Event);
     });
 });
 
