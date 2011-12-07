@@ -28,6 +28,7 @@ setup(name='collective.piwik.mediaelement',
           # -*- Extra requirements: -*-
           'collective.piwik.core',
           'collective.mediaelementjs',
+          'simplejson',
       ],
       entry_points="""
       # -*- Entry points: -*-
