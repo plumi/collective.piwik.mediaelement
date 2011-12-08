@@ -51,11 +51,14 @@ jq(function () {
 
     jq(window).load(function() {
         getPlayCount();
-        $('video').mediaelementplayer().bind('play.onstart',function(){ 
-            piwikTracker.trackLink(location.href.split('/view')[0],'link');
-            $('video').mediaelementplayer().unbind('play.onstart'); //unbind after we click play, so we count each video view one time
-            getPlayCount();
-        });    
+        event=Event;
+        $('video').mediaelementplayer()[0].player.media.addEventListener('play',
+            function() {
+                piwikTracker.trackLink(location.href.split('/view')[0],'link');
+                $('video').mediaelementplayer()[0].player.media.removeEventListener('play');
+                setTimeout("getPlayCount()", 10000);
+            },
+            event=Event);
 
         $('a[href$="at_download/file"]').click(function() {
             setTimeout("piwikTracker.trackLink(location.href.split('/view')[0],'download')",1000);    
