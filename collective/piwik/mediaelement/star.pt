@@ -52,11 +52,15 @@ jq(function () {
     jq(window).load(function() {
         getPlayCount();
         event=Event;
+        var trackedPlay = false;
+        
         $('video').mediaelementplayer()[0].player.media.addEventListener('play',
-            function() {
-                piwikTracker.trackLink(location.href.split('/view')[0],'link');
-                $('video').mediaelementplayer()[0].player.media.removeEventListener('play');
-                setTimeout("getPlayCount()", 10000);
+            function () {
+                if (!trackedPlay){
+                    piwikTracker.trackLink(location.href.split('/view')[0],'link');
+                    setTimeout("getPlayCount()", 10000);
+                    trackedPlay = true;
+                }
             },
             event=Event);
 
