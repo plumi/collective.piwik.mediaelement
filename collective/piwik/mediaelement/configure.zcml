@@ -10,7 +10,7 @@
   
   <configure zcml:condition="installed collective.transcode.star">
       <browser:viewlet
-          name="collective.piwik.flowplayer"
+          name="collective.piwik.mediaelement"
           for="collective.transcode.star.interfaces.ITranscoded"
           manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
           permission="zope2.View"
