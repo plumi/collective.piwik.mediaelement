@@ -1,33 +1,92 @@
-<span id="piwik-playcount" class="discreet" style="display:none; "><span class="views"></span> views</span>
+<div id="statistics">
+    <span id="piwik-playcount" class="discreet" style="display:none; "><span class="views"></span> views</span>
+    <span id="piwik-downloads" class="discreet" style="display:none;"> - <span class="views"></span> downloads</span>
+</div>
 
 <script>
-
+if (location.href.search('embed_view')!=-1){
+    var base_url = location.href.split('/embed_view')[0];
+} else {
+    var base_url = location.href.split('/view')[0];
+}
+    
 function getPlayCount() {
     jq.ajax({
-        url: location.href.split('/view')[0] + '/@@playcount',
+        url: base_url + '/@@playcount',
         type: "GET",
         dataType: "json",
+        cache: false,
         success: function(data) {
             if (data[0] > 0) {
                 jq('#piwik-playcount span.views').html(data[0]);
                 jq('#piwik-playcount').fadeIn();
             }
         },
-        error: function(){//alert('error!');
+        error: function(){
         }
     });
 }
 
+function getDownCount() {
+    jq.ajax({
+        url: base_url + '/@@downcount',
+        type: "GET",
+        cache: false,
+        dataType: "json",
+        success: function(data) {
+            if (data[0] > 0) {
+                jq('#piwik-downloads span.views').html(data[0]);
+                jq('#piwik-downloads').fadeIn();
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+        }
+    });
+}
+
+
+jq(window).load(function() {getPlayCount(); getDownCount();});
+
 jq(function () {
     jq(window).load(function() {
         getPlayCount();
+        event=Event;
+        var trackedPlay = false;
+        var trackedDownload = false;
+        
         $('video').mediaelementplayer()[0].player.media.addEventListener('play',
-            function() {
-                piwikTracker.trackLink(location.href.split('/view')[0],'link');
-                $('video').mediaelementplayer()[0].player.media.removeEventListener('play');
-                setTimeout("getPlayCount()", 10000);
+            function () {
+                if (!trackedPlay){
+                    piwikTracker.trackLink(base_url,'link');
+                    setTimeout(getPlayCount, 10000);
+                    trackedPlay = true;
+                }
             },
             event=Event);
+
+        jq("p.download-block a").click(function() {
+            if (!trackedDownload){         
+                setTimeout("piwikTracker.trackLink(base_url,'download')",1000);
+                setTimeout(getDownCount,10000);
+                trackedDownload = true;
+            }
+        });
+    
+        $('a[href$="at_download/file"]').click(function() {
+            if (!trackedDownload){
+                setTimeout("piwikTracker.trackLink(base_url,'download')",1000);    
+                setTimeout(getDownCount,10000);
+                trackedDownload = true;
+            }
+        });
+    
+        $('a[href="' + location.href.split('/view')[0] + '"]').click(function() {
+            if (!trackedDownload){        
+                setTimeout("piwikTracker.trackLink(base_url,'download')",1000);    
+                setTimeout(getDownCount,10000);
+                trackedDownload = true;
+            }
+        });
     });
 });
 

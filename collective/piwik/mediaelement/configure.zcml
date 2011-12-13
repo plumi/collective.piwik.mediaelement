@@ -14,7 +14,7 @@
           for="collective.transcode.star.interfaces.ITranscoded"
           manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
           permission="zope2.View"
-          template="star.pt"
+          template="mediaelement.pt"
           layer="collective.piwik.core.browser.interfaces.IPiwikCore"
           class=".viewlets.PiwikVideoViewlet" />
 
