@@ -3,7 +3,7 @@ Introduction
 collective.piwik.mediaelement displays a video play counter for Plone sites that use collective.mediaelementjs (http://pypi.python.org/pypi/collective.mediaelementjs).
 A download counter is displayed when used in combination with collective.transcode.star (http://pypi.python.org/pypi/collective.transcode.star) or Plumi (http://plumi.org).
 
-The Piwik (http://piwik.org) open source analytics system is used to store and retrieve the usage data.
+Usage data is stored and retrieved by Piwik (http://piwik.org), an open source analytics platform.
 
 How to get it working
 =====================
