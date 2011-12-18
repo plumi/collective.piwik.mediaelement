@@ -81,7 +81,6 @@ class CountView(BrowserView):
             self.page_url +\
             '&period=year&date=last100&format=json&token_auth=' +\
             settings.piwik_key
-        print url
         try: 
             piwik_data = simplejson.load(urllib2.urlopen(url))
         except Exception, e: # might be a URLError, timeout etc
