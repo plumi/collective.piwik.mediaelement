@@ -5,9 +5,9 @@
 
 <script>
 if (location.href.search('embed_view')!=-1){
-    var base_url = location.href.split('/embed_view')[0];
+    var base_url = location.href.split('/embed_view')[0].replace(/\/$/, "");
 } else {
-    var base_url = location.href.split('/view')[0];
+    var base_url = location.href.split('/view')[0].replace(/\/$/, "");
 }
     
 function getPlayCount() {
